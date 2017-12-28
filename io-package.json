@@ -1,0 +1,44 @@
+{
+    "common": {
+        "name": "vdr",
+        "version": "0.0.0",
+        "news": {
+            "0.0.0": {
+                "en": "Starting development",
+                "de": "Start der Entwicklung"
+            }
+        },
+        "title": "VDR Remote Control Adapter",
+        "desc": {
+            "en": "Control VDR (VideoDiskRecorder)",
+            "de": "Steuert VDR (VideoDiskRecorder)",
+            "ru": "Control VDR (VideoDiskRecorder)"
+        },
+        "platform": "Javascript/Node.js",
+        "mode": "daemon",
+        "icon": "vdr.png",
+        "license": "MIT",
+        "loglevel": "debug",
+        "keywords": [
+            "ioBroker",
+            "vdr",
+            "vdr remote",
+            "Smart Home",
+            "home automation"
+        ],
+        "enabled": false,
+        "nondeletable": false,
+        "type": "multimedia",
+        "authors": [
+            {
+                "name": "Stefan Macher",
+                "email": "stefan.macher@gmx.net"
+            }
+        ]
+    },
+    "native": {
+        "ip": "192.168.1.100",
+        "port": "8002"
+    },
+    "objects": []
+}

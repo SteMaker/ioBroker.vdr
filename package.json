@@ -1,0 +1,39 @@
+{
+  "name": "iobroker.vdr",
+  "version": "0.0.0",
+  "title": "VDR Adapter",
+  "description": {
+      "en": "Connects to a VDR instance to retrieve information and to remote control",
+      "de": "Stellt eine Verbindung zu einem laufenden VDR her, um Informationen abzufragen und den VDR fernzubedienen"
+  },
+  "platform": "Javascript/Node.js",
+  "author": {
+    "name": "maker"
+  },
+  "contributors": [
+    {
+      "name": "maker"
+    }
+  ],
+  "homepage": "n/a",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "MIT",
+  "keywords": [
+    "ioBroker",
+    "vdr",
+    "tv"
+  ],
+  "bugs": {
+    "url": "n/a"
+  },
+  "main": "vdr.js",
+  "maintainers": [
+    {
+      "name": "maker",
+      "email": "stefan.macher@gmx.net"
+    }
+  ]
+}
