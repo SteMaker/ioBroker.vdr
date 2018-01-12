@@ -35,6 +35,11 @@ adapter.on('stateChange', function (id, state) {
                 adapter.setState('KeyPress', {val:state.val,ack:true});
                 sendKeyPress(state.val);
                 break;
+            case 'ChannelSelect':
+                adapter.log.debug("ChannelSelect: "+state.val);
+                adapter.setState('ChannelSelect', {val:state.val,ack:true});
+                selectChannel(state.val);
+                break;
         }
     }
 });
@@ -150,10 +155,29 @@ function sendKeyPress(key) {
     postWithoutBodyToVdrRestfulApi("remote" , key);
 }
 
+function selectChannel(key) {
+    adapter.log.info("Selecting channel "+key);
+    postWithoutBodyToVdrRestfulApi("remote/switch" , key);
+}
+
 function channelListPrinter(channels) {
     for(var i in channels) {
         adapter.log.info("Channel name: "+channels[i].name);
     }
+}
+
+function channelListProvider(channels) {
+    adapter.log.debug("Filling channel information, length: "+channels.length);
+    var chJson = []
+    for(var i=0; i < channels.length; i++) {
+        var entry = {
+            nr: channels[i].number,
+            name: channels[i].name,
+            chid: channels[i].channel_id
+        };
+        chJson.push(entry);
+    }
+    adapter.setState('ChannelList', {val: JSON.stringify(chJson), ack: true});
 }
 
 function main()
@@ -164,8 +188,17 @@ function main()
         type: 'state',
         common: {
             name: 'ChannelList',
-            type: 'array',
-            role: 'list'
+            type: 'string',
+            role: 'json'
+        },
+        native: {}
+    });
+    adapter.setObject('ChannelSelect', {
+        type: 'state',
+        common: {
+            name: 'ChannelSelect',
+            type: 'string',
+            role: 'text'
         },
         native: {}
     });
@@ -181,4 +214,5 @@ function main()
 
     // in this template all states changes inside the adapters namespace are subscribed
     adapter.subscribeStates('*');
+    getChannels(channelListProvider);
 }
