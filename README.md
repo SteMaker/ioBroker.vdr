@@ -5,6 +5,8 @@ Overview:
 =========
 This is an adapter for the ioBroker platform (http://iobroker.net/) to access a VDR - VideoDiskRecorder - (http://www.tvdr.de/). Thanks to Klaus Schmidinger, the author of VDR, for this fantastic project! And also thanks to the yavdr team for the RESTful API plugin.
 
+A VIS adapter is available as well, but with only very minor support right now (https://github.com/SteMaker/iobroker.vis-vdr).
+
 Pre-requisites:
 ==============
 * A VDR installation obviously.
