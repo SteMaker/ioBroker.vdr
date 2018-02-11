@@ -139,6 +139,18 @@ function getChannels(consumerFct) {
     });
 }
 
+function getRecordings(consumerFct) {
+    adapter.log.info("Retrieving list of recordings");
+    getFromVdrRestfulApi("recordings.json", function (rawData) {
+        try {
+            var parsedData = JSON.parse(rawData);
+            consumerFct(parsedData.recordings);
+        } catch (e) {
+            adapter.log.error(e.message);
+        }
+    });
+}
+
 function getInfo(consumerFct) {
     getFromVdrRestfulApi("info.json", function (rawData) {
         try {
@@ -160,6 +172,7 @@ function selectChannel(key) {
     postWithoutBodyToVdrRestfulApi("remote/switch" , key);
 }
 
+// This function is only for debug purposes
 function channelListPrinter(channels) {
     for(var i in channels) {
         adapter.log.info("Channel name: "+channels[i].name);
@@ -180,10 +193,32 @@ function channelListProvider(channels) {
     adapter.setState('ChannelList', {val: JSON.stringify(chJson), ack: true});
 }
 
+// This function is only for debug purposes
+function recordingsListPrinter(recordings) {
+    for(var i in recordings) {
+        adapter.log.info("Recording name: "+recordings[i].name);
+    }
+}
+
+function recordingsListProvider(recordings) {
+    adapter.log.debug("Filling recordings information, length: "+recordings.length);
+    var recJson = []
+    for(var i=0; i < recordings.length; i++) {
+        var entry = {
+            nr: recordings[i].number,
+            name: recordings[i].name,
+            filename: recordings[i].filename
+        };
+        recJson.push(entry);
+    }
+    adapter.setState('RecordingsList', {val: JSON.stringify(recJson), ack: true});
+}
+
 function main()
 {
     adapter.log.info("Starting VDR Adapter, IP: "+adapter.config.ip+":"+adapter.config.port);
 
+    // Input from VDR
     adapter.setObject('ChannelList', {
         type: 'state',
         common: {
@@ -193,6 +228,18 @@ function main()
         },
         native: {}
     });
+
+    adapter.setObject('RecordingsList', {
+        type: 'state',
+        common: {
+            name: 'RecordingsList',
+            type: 'string',
+            role: 'json'
+        },
+        native: {}
+    });
+
+    // Commands to VDR
     adapter.setObject('ChannelSelect', {
         type: 'state',
         common: {
@@ -202,6 +249,7 @@ function main()
         },
         native: {}
     });
+
     adapter.setObject('KeyPress', {
         type: 'state',
         common: {
@@ -215,4 +263,5 @@ function main()
     // in this template all states changes inside the adapters namespace are subscribed
     adapter.subscribeStates('*');
     getChannels(channelListProvider);
+    getRecordings(recordingsListProvider);
 }
