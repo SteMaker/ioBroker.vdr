@@ -207,7 +207,9 @@ function recordingsListProvider(recordings) {
         var entry = {
             nr: recordings[i].number,
             name: recordings[i].name,
-            filename: recordings[i].filename
+            filename: recordings[i].filename,
+            duration: recordings[i].duration,
+            start_time: recordings[i].event_start_time
         };
         recJson.push(entry);
     }
