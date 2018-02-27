@@ -23,8 +23,6 @@ adapter.on('objectChange', function (id, obj) {
 
 // is called if a subscribed state changes
 adapter.on('stateChange', function (id, state) {
-    adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
-
     // you can use the ack flag to detect if it is status (true) or command (false)
     if (state && !state.ack) {
         var as = id.split('.');
@@ -207,7 +205,7 @@ function recordingsListProvider(recordings) {
         var entry = {
             nr: recordings[i].number,
             name: recordings[i].name,
-            filename: recordings[i].filename,
+            filename: recordings[i].file_name,
             duration: recordings[i].duration,
             start_time: recordings[i].event_start_time
         };
